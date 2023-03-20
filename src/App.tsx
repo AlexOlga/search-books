@@ -3,12 +3,14 @@ import React, { useState } from 'react'
 // import viteLogo from '/vite.svg'
 import './App.css'
 import SearchBar from './components/search-bar/seach-bar'
+import {getData} from './api';
 
 function App() {
   const [searchValue, setSearchValue] = useState<string>("");
   const handleSearch = () => {
     if (searchValue !== "") {
-      console.log('searchValue', searchValue)
+      console.log('searchValue', searchValue);
+      getData(searchValue);
     }
   };
   const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
