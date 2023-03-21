@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../store/hooks';
-//import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { type TBook } from '../../baseTypes';
 import BookCard from '../book-card/book-card';
 import './books-list.scss';

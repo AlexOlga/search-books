@@ -4,7 +4,7 @@ export const URL='https://www.googleapis.com/books/v1/volumes?q=';
 
 
 /* filter */
-export const CATEGORIES= ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry'];
+export const CATEGORIES= ['all', 'art', 'biography', 'computers', 'history', 'medicine', 'poetry'];
 
 /* sort type */
 export const SORT_TYPE=['relevance', 'newest'];

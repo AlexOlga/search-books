@@ -22,10 +22,7 @@ const initialState: TBooksState = {
     error: null,
 
 }
-/*
-<TResponse, undefined, { rejectValue: string; state: { books: TBooksState } }>
- */
-export const fetchBooks = createAsyncThunk('books/fetchBooks', async function (_, { getState }) {
+export const fetchBooks = createAsyncThunk<TResponse, undefined, { rejectValue: string; state: { books: TBooksState } }>('books/fetchBooks', async function (_, { getState }) {
     const searchValue = getState().books.searchValue;
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}:keyes&key${API_KEY}`);
@@ -43,8 +40,19 @@ const booksSlice = createSlice({
         changeSorting(state, action) { },
         changeFilter(state, action) {
             state.books = state.books.filter((book: TBook) => {
-                return (book.volumeInfo.categories !== undefined) ? book.volumeInfo.categories.includes(action.payload.categori) : []
-            })
+                if (book.volumeInfo.categories !== undefined) {
+                    const categories = book.volumeInfo.categories.map((item) => item.toLowerCase());
+                    return categories.includes(action.payload.toLowerCase());
+                } else return false
+
+            });
+            state.totalItems = state.books.length;
+        },
+        resetSearch(state) {
+            state.loading = null;
+            state.books=[];
+            state.totalItems=null;
+            state.error=null;
         },
         addMoreBooks() { }
     },
@@ -73,5 +81,6 @@ export const {
     changeSorting,
     changeFilter,
     addMoreBooks,
+    resetSearch,
 } = booksSlice.actions;
 export default booksSlice.reducer;

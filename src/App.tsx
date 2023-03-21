@@ -6,7 +6,7 @@ import './App.css'
 import SearchBar from './components/search-bar/seach-bar'
 import { CATEGORIES, SORT_TYPE } from './constants';
 import Select from './components/select/select';
-import {changeSearchValue, fetchBooks} from './store/booksSlice';
+import {changeSearchValue, fetchBooks, changeFilter, resetSearch} from './store/booksSlice';
 import TotalFound from './components/total-found/total-found';
 import BooksList from './components/books-list/books-list';
 
@@ -18,16 +18,29 @@ function App() {
  
   const handleSearch = () => {
     if (searchValue !== "") {
-      dispatch(fetchBooks());    
-
+      dispatch(fetchBooks());   
+    } else{
+      dispatch(resetSearch());
     }
+    
   };
-  const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    if (e.target.value.trim()==='')  {
+      dispatch(resetSearch());
+    } ;
     dispatch(changeSearchValue(e.target.value.trim()));  
+
   };
-  const handleFilter=()=>{
-    console.log('filter');
-  }
+  const handleFilter=(e: React.ChangeEvent<HTMLSelectElement>)=>{
+        if (e.target.value==='all') {
+          dispatch(fetchBooks());  
+        } else {
+          dispatch(changeFilter(e.target.value));
+        }
+         
+    }
+      
+  
   const handleSorting=()=>{
     console.log('sorting');
   }
@@ -40,7 +53,7 @@ function App() {
          <Select name={'filter'} options={CATEGORIES} labelText={'Categories'} handleSelect={handleFilter}/>
          <Select name={'sorting'} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting}/>
          <TotalFound/>
-        { (loading===false) && <BooksList/>}
+        { (loading===false)  && <BooksList/>}
     </div>
   )
 }
