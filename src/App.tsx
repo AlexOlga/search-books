@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from './store/hooks';
 // import viteLogo from '/vite.svg'
 import './App.css'
 import SearchBar from './components/search-bar/seach-bar'
-// import {getData} from './api';
 import { CATEGORIES, SORT_TYPE } from './constants';
 import Select from './components/select/select';
 import {changeSearchValue, fetchBooks} from './store/booksSlice';
+import TotalFound from './components/total-found/total-found';
+import BooksList from './components/books-list/books-list';
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
         handleSearch={handleSearch} />
          <Select name={'filter'} options={CATEGORIES} labelText={'Categories'} handleSelect={handleFilter}/>
          <Select name={'sorting'} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting}/>
+         <TotalFound/>
+        { (loading===false) && <BooksList/>}
     </div>
   )
 }
