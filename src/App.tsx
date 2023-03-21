@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useAppDispatch, useAppSelector } from './store/hooks';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
 import SearchBar from './components/search-bar/seach-bar'
-import {getData} from './api';
+// import {getData} from './api';
 import { CATEGORIES, SORT_TYPE } from './constants';
 import Select from './components/select/select';
+import {changeSearchValue, fetchBooks} from './store/booksSlice';
+
 
 function App() {
-  const [searchValue, setSearchValue] = useState<string>("");
+
+  const { totalItems, books, loading, error, searchValue } = useAppSelector((state) => state.books );
+  const dispatch = useAppDispatch();
+ 
   const handleSearch = () => {
     if (searchValue !== "") {
-      console.log('searchValue', searchValue);
-      getData(searchValue);
+      dispatch(fetchBooks());    
+
     }
   };
   const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value.trim());
+    dispatch(changeSearchValue(e.target.value.trim()));  
   };
   const handleFilter=()=>{
     console.log('filter');
@@ -37,3 +43,5 @@ function App() {
 }
 
 export default App
+
+
