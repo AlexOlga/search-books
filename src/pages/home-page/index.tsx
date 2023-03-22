@@ -6,6 +6,7 @@ import Select from '../../components/select/select';
 import { changeSearchValue, fetchBooks, changeFilter, resetSearch, changeSorting } from '../../store/booksSlice';
 import TotalFound from '../../components/total-found/total-found';
 import BooksList from '../../components/books-list/books-list';
+import Button from '../../components/button/button';
 const HomePage = () => {
   const { loading, searchValue } = useAppSelector((state) => state.books);
   const dispatch = useAppDispatch();
@@ -46,7 +47,12 @@ const HomePage = () => {
       <Select name={'filter'} options={CATEGORIES} labelText={'Categories'} handleSelect={handleFilter} />
       <Select name={'sorting'} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting} />
       <TotalFound />
-      {(loading === false) && <BooksList />}
+      {(loading === false) && (
+      <>
+        <BooksList />
+        <Button text={"Load more"} onClick={() => { }} />
+      </>
+      )}
 
     </div>
   )

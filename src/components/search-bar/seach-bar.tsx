@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '../button/button';
 import './search-bar.scss'
 
 type SearchBarProps = {
@@ -27,7 +28,8 @@ const SearchBar = (props: SearchBarProps ) => {
           onChange={changeSearch}         
           onKeyPress={isEnter}
         />
-        <button onClick={handleSearch}>Search</button>
+        <Button text="Search" onClick={handleSearch}/>
+        
       </div>
     </>
   )
