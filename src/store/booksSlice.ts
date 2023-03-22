@@ -10,6 +10,7 @@ type TBooksState = {
     books: TBook[],
     totalItems: number | null,
     order: Order,
+    startIndex: number,
     loading: boolean | null,
     error: Error | null;
 };
@@ -19,14 +20,16 @@ const initialState: TBooksState = {
     totalItems: null,
     searchValue: '',
     order: Order.Relevance,
+    startIndex:0,
     loading: null,
     error: null,
 
 }
 export const fetchBooks = createAsyncThunk<TResponse, undefined, { rejectValue: string; state: { books: TBooksState } }>('books/fetchBooks', async function (_, { getState }) {
     const searchValue = getState().books.searchValue;
-    const order=getState().books.order;    
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&orderby=${order}&maxResults=30&key=${API_KEY}`); 
+    const order=getState().books.order; 
+    const startIndex=getState().books.startIndex;       
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&startIndex=${startIndex}&orderby=${order}&maxResults=30&key=${API_KEY}`); 
     const data = await response.json();
     return data;
 });
@@ -37,6 +40,7 @@ const booksSlice = createSlice({
     reducers: {
         changeSearchValue(state, action) {
             state.searchValue = action.payload;
+            state.startIndex=0;
         },
         changeSorting(state, action) { 
             state.order=action.payload;
@@ -54,10 +58,13 @@ const booksSlice = createSlice({
         resetSearch(state) {
             state.loading = null;
             state.books=[];
+            state.startIndex=0;
             state.totalItems=null;
             state.error=null;
         },
-        addMoreBooks() { }
+        changeStartIndex(state) {
+            state.startIndex=state.books.length-1;
+         }
     },
     extraReducers: (bilder) => {
         bilder.addCase(fetchBooks.pending, (state) => {
@@ -66,16 +73,21 @@ const booksSlice = createSlice({
         });
         bilder.addCase(fetchBooks.fulfilled, (state, action) => {
             state.loading = false;
-            state.books = action.payload.items;
-            state.totalItems = action.payload.totalItems;
-            console.log('state.totalItems ', state.totalItems);
-            console.log('books', state.books);
+            if ( state.startIndex===0){
+                state.books = action.payload.items;
+            } else {
+                state.books =[...state.books, ...action.payload.items] ;               
+            }  
+            console.log('books', state.books);          
+            state.totalItems = action.payload.totalItems;            
+           
 
         });
         bilder.addCase(fetchBooks.rejected, (state) => {
             state.loading = false;
             state.books = [];
             state.totalItems = null;
+            state.startIndex=0
         });
     },
 });
@@ -83,7 +95,7 @@ export const {
     changeSearchValue,
     changeSorting,
     changeFilter,
-    addMoreBooks,
+    changeStartIndex,
     resetSearch,
 } = booksSlice.actions;
 export default booksSlice.reducer;

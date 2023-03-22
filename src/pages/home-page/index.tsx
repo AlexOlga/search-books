@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import SearchBar from '../../components/search-bar/seach-bar'
 import { CATEGORIES, SORT_TYPE } from '../../constants';
 import Select from '../../components/select/select';
-import { changeSearchValue, fetchBooks, changeFilter, resetSearch, changeSorting } from '../../store/booksSlice';
+import { changeSearchValue, fetchBooks, changeFilter, resetSearch, changeSorting, changeStartIndex } from '../../store/booksSlice';
 import TotalFound from '../../components/total-found/total-found';
 import BooksList from '../../components/books-list/books-list';
 import Button from '../../components/button/button';
@@ -30,11 +30,15 @@ const HomePage = () => {
     } else {
       dispatch(changeFilter(e.target.value));
     }
-
   }
 
   const handleSorting = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(changeSorting(e.target.value));
+    void dispatch(fetchBooks());
+  }
+
+  const handleLoadMore = () => {
+    dispatch(changeStartIndex());
     void dispatch(fetchBooks());
   }
 
@@ -50,7 +54,7 @@ const HomePage = () => {
       {(loading === false) && (
       <>
         <BooksList />
-        <Button text={"Load more"} onClick={() => { }} />
+        <Button text={"Load more"} onClick={ handleLoadMore} />
       </>
       )}
 
