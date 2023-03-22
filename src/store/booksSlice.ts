@@ -1,11 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { type TBook } from "../baseTypes";
+import { type TResponse, type TBook } from "../baseTypes";
 import { API_KEY } from "../constants";
-type TResponse = {
-    kind: string,
-    totalItems: number,
-    items: TBook[],
-}
 enum Order { 
     Relevance = "relevance", 
     Newest = "newest",    
@@ -30,9 +25,8 @@ const initialState: TBooksState = {
 }
 export const fetchBooks = createAsyncThunk<TResponse, undefined, { rejectValue: string; state: { books: TBooksState } }>('books/fetchBooks', async function (_, { getState }) {
     const searchValue = getState().books.searchValue;
-    const order=getState().books.order;
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&orderby=${order}&maxResults=30&key=${API_KEY}`); //projection=lite&
+    const order=getState().books.order;    
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&orderby=${order}&maxResults=30&key=${API_KEY}`); 
     const data = await response.json();
     return data;
 });

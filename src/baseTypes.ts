@@ -8,7 +8,7 @@ export type TBook = {
         mainCategory?:string,
         description?: string,
         imageLinks?: {
-            smallThumbnail: string,
+            small: string,
             thumbnail: string,
             medium:string
         }
@@ -19,5 +19,9 @@ export type TBooks = {
     totalItems: number,
     items: TBooks[]
 }
-
+export type TResponse = {
+    kind: string,
+    totalItems: number,
+    items: TBook[],
+}
 

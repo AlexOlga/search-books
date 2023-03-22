@@ -8,7 +8,7 @@ const BookCard = (book: TBook) => {
     return (
         <div className="book-card" >
             <h3 className="book-card__title">{book.volumeInfo.title}</h3>
-            <img className="book-card__img" src={book.volumeInfo.imageLinks?.smallThumbnail} alt="book cover" />
+            <img className="book-card__img" src={book.volumeInfo.imageLinks?.small} alt="book cover" />
             <div className="text-contener">
                 <p className="book-card__category">
                     {categorie}
