@@ -6,13 +6,12 @@ import './App.css'
 import SearchBar from './components/search-bar/seach-bar'
 import { CATEGORIES, SORT_TYPE } from './constants';
 import Select from './components/select/select';
-import {changeSearchValue, fetchBooks, changeFilter, resetSearch} from './store/booksSlice';
+import {changeSearchValue, fetchBooks, changeFilter, resetSearch, changeSorting} from './store/booksSlice';
 import TotalFound from './components/total-found/total-found';
 import BooksList from './components/books-list/books-list';
 
 
 function App() {
-
   const { totalItems, books, loading, error, searchValue } = useAppSelector((state) => state.books );
   const dispatch = useAppDispatch();
  
@@ -38,11 +37,11 @@ function App() {
           dispatch(changeFilter(e.target.value));
         }
          
-    }
-      
+    }     
   
-  const handleSorting=()=>{
-    console.log('sorting');
+  const handleSorting=(e: React.ChangeEvent<HTMLSelectElement>)=>{    
+    dispatch( changeSorting(e.target.value));
+    dispatch(fetchBooks());   
   }
   return (
     <div className="App">

@@ -6,26 +6,33 @@ type TResponse = {
     totalItems: number,
     items: TBook[],
 }
-
+enum Order { 
+    Relevance = "relevance", 
+    Newest = "newest",    
+};
 type TBooksState = {
     searchValue: string,
     books: TBook[],
     totalItems: number | null,
+    order: Order,
     loading: boolean | null,
     error: Error | null;
 };
+
 const initialState: TBooksState = {
     books: [],
     totalItems: null,
     searchValue: '',
+    order: Order.Relevance,
     loading: null,
     error: null,
 
 }
 export const fetchBooks = createAsyncThunk<TResponse, undefined, { rejectValue: string; state: { books: TBooksState } }>('books/fetchBooks', async function (_, { getState }) {
     const searchValue = getState().books.searchValue;
+    const order=getState().books.order;
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}:keyes&key${API_KEY}`);
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&orderby=${order}&maxResults=30&key=${API_KEY}`); //projection=lite&
     const data = await response.json();
     return data;
 });
@@ -37,7 +44,9 @@ const booksSlice = createSlice({
         changeSearchValue(state, action) {
             state.searchValue = action.payload;
         },
-        changeSorting(state, action) { },
+        changeSorting(state, action) { 
+            state.order=action.payload;
+        },
         changeFilter(state, action) {
             state.books = state.books.filter((book: TBook) => {
                 if (book.volumeInfo.categories !== undefined) {

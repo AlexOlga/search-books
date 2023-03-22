@@ -3,7 +3,7 @@ type TSearchProps = {
     name: string
     options: string[];
     labelText: string;
-    handleSelect: () => void;
+    handleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 const Select = (props: TSearchProps) => {
     const { name, options, labelText, handleSelect } = props;
