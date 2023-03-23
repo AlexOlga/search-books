@@ -9,8 +9,9 @@ import BooksList from '../../components/books-list/books-list';
 import Button from '../../components/button/button';
 
 import './styles.scss';
+import Loading from '../../components/loading/loading';
 const HomePage = () => {
-  const { loading, searchValue } = useAppSelector((state) => state.books);
+  const { loading, searchValue, error } = useAppSelector((state) => state.books);
   const dispatch = useAppDispatch();
   const handleSearch = () => {
     if (searchValue !== "") {
@@ -57,12 +58,13 @@ const HomePage = () => {
             <Select name={'sorting'} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting} />
           </>)}
         </div>
-
-
       </header>
-      <TotalFound />
+      {(loading===true) && <Loading />}
+      {(error !==null) && <h2>{error}</h2>}     
+     
       {(loading === false) && (
         <>
+         <TotalFound />
           <BooksList />
           <div className='button-contener'>
             <Button text={"Load more"} onClick={handleLoadMore} />

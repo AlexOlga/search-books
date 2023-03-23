@@ -12,7 +12,7 @@ type TBooksState = {
     order: Order,
     startIndex: number,
     loading: boolean | null,
-    error: Error | null;
+    error: string | null;
 };
 
 const initialState: TBooksState = {
@@ -84,8 +84,9 @@ const booksSlice = createSlice({
 
         });
         bilder.addCase(fetchBooks.rejected, (state) => {
-            state.loading = false;
+            state.loading = null;
             state.books = [];
+            state.error='Data loading error';
             state.totalItems = null;
             state.startIndex=0
         });
