@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { type TResponse, type TBook } from "../baseTypes";
+import { type TResponse, type TBook, Order, Filter } from "../baseTypes";
 import { API_KEY } from "../constants";
-enum Order { 
-    Relevance = "relevance", 
-    Newest = "newest",    
-};
+
 type TBooksState = {
     searchValue: string,
     books: TBook[],
     totalItems: number | null,
     order: Order,
+    filter: Filter,
     startIndex: number,
+    lastIndex:number,
+    isLoadmore:boolean,
     loading: boolean | null,
     error: string | null;
 };
@@ -19,8 +19,11 @@ const initialState: TBooksState = {
     books: [],
     totalItems: null,
     searchValue: '',
-    order: Order.Relevance,
     startIndex:0,
+    lastIndex:0,
+    isLoadmore: false,
+    order: Order.Relevance,
+    filter: Filter.all,   
     loading: null,
     error: null,
 
@@ -41,29 +44,32 @@ const booksSlice = createSlice({
         changeSearchValue(state, action) {
             state.searchValue = action.payload;
             state.startIndex=0;
+            state.lastIndex=0;
         },
         changeSorting(state, action) { 
-            state.order=action.payload;
+            state.order=action.payload;           
         },
         changeFilter(state, action) {
+            state.filter=action.payload;
+           /* state.startIndex=state.books.length;
             state.books = state.books.filter((book: TBook) => {
                 if (book.volumeInfo.categories !== undefined) {
                     const categories = book.volumeInfo.categories.map((item) => item.toLowerCase());
                     return categories.includes(action.payload.toLowerCase());
                 } else return false
-
             });
-            state.totalItems = state.books.length;
+            state.totalItems = state.books.length; */
         },
         resetSearch(state) {
             state.loading = null;
             state.books=[];
             state.startIndex=0;
+            state.lastIndex=0;
             state.totalItems=null;
             state.error=null;
         },
         changeStartIndex(state) {
-            state.startIndex=state.books.length-1;
+            state.startIndex=state.lastIndex;            
          }
     },
     extraReducers: (bilder) => {
@@ -74,12 +80,25 @@ const booksSlice = createSlice({
         bilder.addCase(fetchBooks.fulfilled, (state, action) => {
             state.loading = false;
             if ( state.startIndex===0){
-                state.books = action.payload.items;
+                state.books = (action.payload.items !== undefined) ? action.payload.items : [] ;
+                state.lastIndex=state.books.length;               
             } else {
-                state.books =[...state.books, ...action.payload.items] ;               
-            }  
-            console.log('books', state.books);          
-            state.totalItems = action.payload.totalItems;            
+                const nexArr=(action.payload.items !== undefined) ? action.payload.items : [] ;
+                state.books =[...state.books, ...nexArr]; 
+                state.lastIndex+=nexArr.length;             
+            } 
+            state.totalItems = action.payload.totalItems;
+            if (state.filter !== Filter.all) {
+                state.books = state.books.filter((book: TBook) => {
+                    if (book.volumeInfo.categories !== undefined) {
+                        const categories = book.volumeInfo.categories.map((item) => item.toLowerCase());
+                        return categories.includes(state.filter);
+                    } else return false
+                });
+                state.totalItems = state.books.length;            }
+            state.isLoadmore=(state.totalItems>state.lastIndex);
+            console.log('books', state.books);   
+                       
            
 
         });

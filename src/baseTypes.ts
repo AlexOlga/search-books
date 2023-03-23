@@ -25,3 +25,16 @@ export type TResponse = {
     items: TBook[],
 }
 
+export enum Order { 
+    Relevance = "relevance", 
+    Newest = "newest",    
+};
+export enum Filter { 
+    all='all', 
+    art='art', 
+    biography= 'biography', 
+    computers= 'computers', 
+    history= 'history', 
+    medicine= 'medicine', 
+    poetry='poetry'       
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { changeSearchValue, fetchBooks, changeFilter, resetSearch, changeSorting, changeStartIndex } from '../../store/booksSlice';
 import SearchBar from '../../components/search-bar/seach-bar'
@@ -11,7 +11,7 @@ import Button from '../../components/button/button';
 import './styles.scss';
 import Loading from '../../components/loading/loading';
 const HomePage = () => {
-  const { loading, searchValue, error } = useAppSelector((state) => state.books);
+  const { loading, searchValue, error, order, filter, books, startIndex, isLoadmore } = useAppSelector((state) => state.books);
   const dispatch = useAppDispatch();
   const handleSearch = () => {
     if (searchValue !== "") {
@@ -28,23 +28,19 @@ const HomePage = () => {
 
   };
   const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === 'all') {
-      void dispatch(fetchBooks());
-    } else {
-      dispatch(changeFilter(e.target.value));
-    }
+    dispatch(changeFilter(e.target.value));
   }
 
   const handleSorting = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(changeSorting(e.target.value));
-    void dispatch(fetchBooks());
   }
 
   const handleLoadMore = () => {
     dispatch(changeStartIndex());
-    void dispatch(fetchBooks());
   }
-
+  useEffect(() => {
+    if (searchValue !== '') void dispatch(fetchBooks());
+  }, [order, filter, startIndex])
   return (
     <>
       <header className='header'>
@@ -53,27 +49,25 @@ const HomePage = () => {
           changeSearch={changeSearch}
           handleSearch={handleSearch} />
         <div className='contener'>
-          {(loading === false) && (<>
-            <Select name={'filter'} options={CATEGORIES} labelText={'Categories'} handleSelect={handleFilter} />
-            <Select name={'sorting'} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting} />
-          </>)}
+          <Select name={'filter'} value={filter} options={CATEGORIES} labelText={'Categories'} handleSelect={handleFilter} />
+          <Select name={'sorting'} value={order} options={SORT_TYPE} labelText={'Sorting by'} handleSelect={handleSorting} />
         </div>
       </header>
-      {(loading===true) && <Loading />}
-      {(error !==null) && <h2>{error}</h2>}     
-     
+      {(loading === true) && <Loading />}
+      {(error !== null) && <h2>{error}</h2>}
       {(loading === false) && (
         <>
-         <TotalFound />
-          <BooksList />
-          <div className='button-contener'>
+          <TotalFound />
+          {(books.length !== 0) && <BooksList />}
+          {isLoadmore && (<div className='button-contener'>
             <Button text={"Load more"} onClick={handleLoadMore} />
           </div>
-
+          )}
         </>
       )}
 
     </>
   )
+
 }
 export default HomePage
