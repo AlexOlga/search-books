@@ -1,0 +1,16 @@
+/*constants*/
+$button_color_text: #fff;
+$button_color: rgb(52, 173, 236);
+$title_color: #fff;
+$title_card_color: #696969;
+$shadow_color:#2692dd;
+
+
+/*placeholder*/
+
+%focusElm{
+    outline: none;
+    box-shadow: 0 0 4px $shadow_color inset;
+    -moz-box-shadow: 0 0 4px  $shadow_color inset;
+    -webkit-box-shadow: 0 0 4px  $shadow_color inset;
+}

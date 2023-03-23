@@ -1,53 +1,40 @@
-.cf:before,
-.cf:after {
-    content: "";
-    display: table;
-}
-.cf:after {
-    clear: both;
-}
+@import '../../assets/baseStyle/_constants.scss';
+
 .searchform {
-    background: #f4f4f4;
+    display: flex;
+    justify-content: center;   
+    margin: 0 auto;
     background: rgba(244, 244, 244, .79);
-    border: 1px solid #d3d3d3;   
-    padding: 2px 5px;      
-    width: 50%;
-    box-shadow: 0 4px 9px rgba(0, 0, 0, .37);
-    -moz-box-shadow: 0 4px 9px rgba(0, 0, 0, .37);
-    -webkit-box-shadow: 0 4px 9px rgba(0, 0, 0, .37);
+    border: 1px solid #d3d3d3;
+    padding: 2px 5px;   
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px
 }
-.searchform input{
-    float: left
-}
+
+
 .searchform input {
     background: #fefefe;
     border: none;
-    font: 12px/12px 'HelveticaNeue', Helvetica, Arial, sans-serif;
     margin-right: 5px;
-    padding: 10px;
-    width: 80%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, .4) inset, 1px 1px 1px rgba(255, 255, 255, .75);
-    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, .4) inset, 1px 1px 1px rgba(255, 255, 255, .75);
-    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, .4) inset, 1px 1px 1px rgba(255, 255, 255, .75);
+    padding: 1rem;
+    flex-grow: 1;
+       
     border-radius: 9px;
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px
 }
+
 .searchform input:focus {
-    outline: none;
-    box-shadow: 0 0 4px #0d76be inset;
-    -moz-box-shadow: 0 0 4px #0d76be inset;
-    -webkit-box-shadow: 0 0 4px #0d76be inset;
+    @extend %focusElm;
 }
+
 .searchform input::-webkit-input-placeholder {
     font-style: italic;
     line-height: 15px
 }
+
 .searchform input:-moz-placeholder {
     font-style: italic;
     line-height: 15px
 }
-

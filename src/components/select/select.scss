@@ -1,0 +1,19 @@
+@import '../../assets/baseStyle/_constants.scss';
+.select__label{
+    color: $title_color;
+    font-size: 1.5rem;    
+}
+.select__contener{
+    padding: 1rem;
+}
+
+.select{
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;   
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    &:focus{
+      @extend %focusElm;
+    }
+}

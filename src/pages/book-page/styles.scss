@@ -1,0 +1,42 @@
+@import '../../assets/baseStyle/_constants.scss';
+.content{
+    display: flex;
+    padding: 0;
+}
+.img-contener{
+    background: rgba(244, 244, 244, .79);
+    padding: 5rem;
+}
+.book-page__img{
+    width: 256px;
+    height:auto;
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    align-self: center;
+}
+.title-contener{
+    background: no-repeat center/80% url('../../assets/fon2.jpg');
+    background-size: cover;
+    padding: 0.5rem;
+}
+.book-page__title{
+    color: $title_color;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.text-contener{
+    padding: 1rem;
+    font-size: 1.4rem;
+    text-align: justify;
+}
+.book-page__category{
+    font-size: 1.1rem;
+    color: $title_card_color;
+}
+.book-page__authors{
+    font-weight: 600;
+    padding: 1rem 0;
+}
+.button-back__contener{
+    padding: 1rem;   
+}

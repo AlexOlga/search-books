@@ -12,7 +12,7 @@ const BooksList = () => {
     <>
       <div className="books-contener">
         {books.map((item: TBook) => (
-          <Link className="link-card-page" to={`/books/${item.id}`} key={item.id}>
+          <Link className="link" to={`/books/${item.id}`} key={item.id}>
             <BookCard {...item}  key={item.id}/>
           </Link>
         ))}

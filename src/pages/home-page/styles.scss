@@ -1,0 +1,28 @@
+@import '../../assets/baseStyle/_constants.scss';
+
+.header {
+    background: no-repeat center/80% url('../../assets/fon2.jpg');
+    background-size: cover;
+    padding: 0.5rem;
+}
+
+.title {
+    color: $title_color;
+    font-size: 3rem;
+    padding: 1rem 0;
+
+    @media (max-width: 350px) {        
+        padding: 0, 5rem 0;
+        text-align: center;
+    }
+}
+
+.contener {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+.button-contener{
+    display: flex;
+    justify-content: center;
+}

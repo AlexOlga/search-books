@@ -13,14 +13,13 @@ const SearchBar = (props: SearchBarProps ) => {
 
 
   const isEnter = (e: React.KeyboardEvent): void => {
-    if (e.key === 'Enter') {
-        console.log('enter');
+    if (e.key === 'Enter') {        
         handleSearch();
     }
   } 
   return (
     <>
-      <div className="searchform cf">
+      <div className="searchform">
         <input
           type="search"
           placeholder="What will we read?"

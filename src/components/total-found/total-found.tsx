@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../store/hooks';
+import './total-found.scss'
 
 const TotalFound = () => {
     const totalItems = useAppSelector((state) => state.books.totalItems);
@@ -18,7 +19,7 @@ const TotalFound = () => {
 
     return (
         <>
-            <p>{text}</p>
+            <p className='subtitle'>{text}</p>
         </>
     );
 };

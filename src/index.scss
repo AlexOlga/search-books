@@ -1,0 +1,21 @@
+
+*,*:after,*:before {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  font-size: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+  margin: 0 auto; 
+  min-width: 320px;
+  min-height: 100vh;
+
+}
+
+

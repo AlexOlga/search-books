@@ -1,0 +1,35 @@
+@import '../../assets/baseStyle/_constants.scss';
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    height: 270px;
+    padding: 0.7rem;
+    background: rgba(244, 244, 244);
+
+    &:hover {
+        @extend %focusElm
+    }
+
+}
+
+.book-card__img {
+    width: 128px;
+    height: 160px;
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    align-self: center;
+}
+
+.book-card__title {
+    font-size: 1.1rem;
+    text-align: center;
+    padding-top: 10px;
+    color: dimgray;
+}
+
+.text-block {
+    color: black;
+    font-size: 1.1rem;
+    padding: 3px 0;
+}
