@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { type TResponse, type TBook, Order, Filter } from "../baseTypes";
-import { API_KEY } from "../constants";
+import { API_KEY, BASE_URL, STEP_LOADING } from "../constants";
 
 type TBooksState = {
     searchValue: string,
@@ -32,7 +32,7 @@ export const fetchBooks = createAsyncThunk<TResponse, undefined, { rejectValue: 
     const searchValue = getState().books.searchValue;
     const order=getState().books.order; 
     const startIndex=getState().books.startIndex;       
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&startIndex=${startIndex}&orderby=${order}&maxResults=30&key=${API_KEY}`); 
+    const response = await fetch(`${BASE_URL}${searchValue}&startIndex=${startIndex}&orderby=${order}&maxResults=${STEP_LOADING}&key=${API_KEY}`);  
     const data = await response.json();
     return data;
 });
@@ -50,15 +50,7 @@ const booksSlice = createSlice({
             state.order=action.payload;           
         },
         changeFilter(state, action) {
-            state.filter=action.payload;
-           /* state.startIndex=state.books.length;
-            state.books = state.books.filter((book: TBook) => {
-                if (book.volumeInfo.categories !== undefined) {
-                    const categories = book.volumeInfo.categories.map((item) => item.toLowerCase());
-                    return categories.includes(action.payload.toLowerCase());
-                } else return false
-            });
-            state.totalItems = state.books.length; */
+            state.filter=action.payload;           
         },
         resetSearch(state) {
             state.loading = null;

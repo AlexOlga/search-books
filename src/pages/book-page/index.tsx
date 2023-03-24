@@ -20,7 +20,8 @@ const BookPage = () => {
                 .catch(() => { setIsBook(false) })
         }
     }, [bookId])
-    if (!isBook) return (<p> Not found</p>);
+    if (!isBook || book === undefined) return (<p> Not found</p>);
+    
 
     const categorie = (book !== undefined) ? (book.volumeInfo.categories !== undefined) ? book.volumeInfo.categories.join('/ ') : '' : '';
     return (
