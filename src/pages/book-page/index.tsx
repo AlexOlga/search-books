@@ -16,14 +16,25 @@ const BookPage = () => {
         if (bookId !== undefined) {
             fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookId}&key=${API_KEY}`)
                 .then(async (res: Response) => await res.json())
-                .then((data: TResponse) => { if (data.items !== undefined) setBook(data.items[0]) })
+                .then((data: TResponse) => {
+                    if (data.items !== undefined) {
+                        setBook(data.items[0]);
+                        setIsBook(true)
+                    } else {
+                        setIsBook(false)
+                    }
+                })
                 .catch(() => { setIsBook(false) })
         }
     }, [bookId])
-    if (!isBook || book === undefined) return (<p> Not found</p>);
-    
-
-    const categorie = (book !== undefined) ? (book.volumeInfo.categories !== undefined) ? book.volumeInfo.categories.join('/ ') : '' : '';
+    if (!isBook) return (<p> Not found</p>);
+    let imageUrl='';
+    let categorie='' ;
+    if (book !== undefined){
+        imageUrl= (book.volumeInfo.imageLinks?.small !== undefined) ? book.volumeInfo.imageLinks?.small : (book.volumeInfo.imageLinks?.thumbnail !== undefined) ? book.volumeInfo.imageLinks?.thumbnail : '../../assets/img/no-image.jpg.jpg';
+        categorie = (book !== undefined) ? (book.volumeInfo.categories !== undefined) ? book.volumeInfo.categories.join('/ ') : '' : '';
+    }
+   
     return (
         <>
             {(book !== undefined) && (<>
@@ -32,7 +43,7 @@ const BookPage = () => {
                 </div>
                 <div className="content">
                     <div className="img-contener">
-                        <img className="book-page__img" src={book.volumeInfo.imageLinks?.thumbnail} alt="book cover" />
+                        <img className="book-page__img" src={imageUrl} alt="book cover" />
                     </div>
                     <div className="text-contener">
                         <p className="book-page__category">
@@ -47,11 +58,11 @@ const BookPage = () => {
                     </div>
                 </div>
                 <div className="button-back__contener">
-                <Link to="/" className="link-back">               
-                <Button text="Searching results" onClick={()=>{}}/>                
-                </Link>
+                    <Link to="/" className="link-back">
+                        <Button text="Searching results" onClick={() => { }} />
+                    </Link>
                 </div>
-                
+
             </>)}
         </>
     )
