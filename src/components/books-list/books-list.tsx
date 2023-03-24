@@ -13,7 +13,7 @@ const BooksList = () => {
       <div className="books-contener">
         {books.map((item: TBook) => (
           <Link className="link" to={`/books/${item.id}`} key={item.id}>
-            <BookCard {...item}  key={item.id}/>
+            <BookCard {...item} />
           </Link>
         ))}
       </div>
