@@ -12,4 +12,4 @@ npm install
 npm run dev
 ```
 ## Deploy
- alexolga.github.io/search-books/ 
+< alexolga.github.io/search-books/ >
