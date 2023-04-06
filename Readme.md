@@ -11,3 +11,5 @@ npm install
 ```bash
 npm run dev
 ```
+## Deploy
+ alexolga.github.io/search-books/ 
