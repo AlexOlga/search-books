@@ -1,6 +1,5 @@
 
-## Тестовое задание на позицию frontend разработчика
-React-приложение поиска книг с помощью Google Books API.
+## React-приложение поиска книг с помощью Google Books API.
 ## Setup
 
 1. Clone the repository and install the dependencies
